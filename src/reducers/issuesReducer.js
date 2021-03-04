@@ -6,7 +6,7 @@ const initialState = {
   errorMessage: '',
 };
 
-export default (state = [], action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_ISSUES_LOADING:
       return {...state, loading: action.payload};

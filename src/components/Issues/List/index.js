@@ -1,9 +1,8 @@
-import React, {Fragment, PureComponent} from 'react';
+import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {ListItem} from 'react-native-elements';
 
 import {getIssues} from '../../../actions';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 
 class IssuesList extends React.Component {
   componentDidMount() {
