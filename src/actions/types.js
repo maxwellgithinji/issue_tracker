@@ -1,7 +1,5 @@
-// Issues Get All
-export const GET_ISSUES = 'GET_ISSUES';
-export const GET_ISSUES_LOADING = 'GET_ISSUES_LOADING';
-export const GET_ISSUES_ERROR = 'GET_ISSUES_ERROR';
+// Get all Issues Params
+export const GET_ISSUES_PARAMS = 'GET_ISSUES_PARAMS';
 
 // Issue Get one
 export const GET_AN_ISSUE = 'GET_AN_ISSUE';

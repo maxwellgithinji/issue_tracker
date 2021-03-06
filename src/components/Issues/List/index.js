@@ -1,46 +1,46 @@
-import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
+import {graphql} from 'react-apollo';
+import IssueLIstComponent from './component';
+import {GQL_GET_ISSUES_BY_TAG_NAME} from '../../../graphql/queries';
+import {getIssuesParams} from '../../../actions';
 
-import {getIssues} from '../../../actions';
-import {View, Text} from 'react-native';
-
-class IssuesList extends React.Component {
-  componentDidMount() {
-    this.props.getIssues();
-  }
-
-  issuesList = () => {
-    const {issues} = this.props;
-    return issues.map((issue) => {
-      return (
-        <Fragment key={issue.id}>
-          <Text>{issue.name}</Text>
-        </Fragment>
-      );
-    });
+function mapStateToProps(state) {
+  return {
+    states: state.issuesParams.issuesParams.states,
+    name: state.issuesParams.issuesParams.name,
+    login: state.issuesParams.issuesParams.login,
   };
-
-  issueLoader = () => {
-    return (
-      <View>
-        <Text>Loading...........</Text>
-      </View>
-    );
-  };
-
-  render() {
-    const {loading} = this.props;
-    return (
-      <Fragment>{loading ? this.issueLoader() : this.issuesList()}</Fragment>
-    );
-  }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    issues: state.issues.issues,
-    loading: state.issues.loading,
-  };
-};
+const connectRedux = connect(mapStateToProps, {getIssuesParams});
+// Apollo
+const query = GQL_GET_ISSUES_BY_TAG_NAME;
 
-export default connect(mapStateToProps, {getIssues})(IssuesList);
+function mapOwnPropsToOptions(ownProps) {
+  return {
+    variables: {
+      states: ownProps.states,
+      name: ownProps.name,
+      login: ownProps.login,
+    },
+  };
+}
+function mapQueryResultToContainedProps(opts) {
+  if (
+    !opts.data ||
+    opts.data.loading ||
+    !opts.data.repositoryOwner.repository.issues.edges
+  ) {
+    return {
+      issues: [],
+    };
+  }
+  return {
+    issues: opts.data.repositoryOwner.repository.issues.edges,
+  };
+}
+const connectApollo = graphql(query, {
+  options: mapOwnPropsToOptions,
+  props: mapQueryResultToContainedProps,
+});
+export default connectRedux(connectApollo(IssueLIstComponent));

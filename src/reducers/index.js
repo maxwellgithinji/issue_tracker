@@ -1,9 +1,7 @@
 import {combineReducers} from 'redux';
 
-import issuesReducer from './issuesReducer';
+import issuesParamsReducer from './issuesParamsReducer';
 
 export default combineReducers({
-  issues: issuesReducer,
+  issuesParams: issuesParamsReducer,
 });
-
-export const issues = issuesReducer;
