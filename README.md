@@ -1,5 +1,5 @@
 # Issue Tracker
-
+- a github issue tracker with `graphql`, `redux`
 ## Running
 
 - clone the repo
