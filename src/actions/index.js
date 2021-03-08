@@ -8,3 +8,11 @@ export const getIssuesParams = (params) => (dispatch) => {
     issuesParams: params,
   });
 };
+
+export const searchIssues = (term) => (dispatch) => {
+  const {SEARCH_AN_ISSUE} = actionTypes;
+  dispatch({
+    type: SEARCH_AN_ISSUE,
+    searchParams: term,
+  });
+};

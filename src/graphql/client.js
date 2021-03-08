@@ -16,6 +16,7 @@ const httpLink = new HttpLink({
 const client = new ApolloClient({
   link: httpLink,
   cache,
+  fetchPolicy: 'no-cache',
 });
 
 export default client;

@@ -4,6 +4,7 @@ import {ApolloProvider} from 'react-apollo';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import {MenuProvider} from 'react-native-popup-menu';
 
 import client from './src/graphql/client';
 import reducers from './src/reducers';
@@ -16,7 +17,9 @@ class App extends PureComponent {
     return (
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <Home />
+          <MenuProvider>
+            <Home />
+          </MenuProvider>
         </Provider>
       </ApolloProvider>
     );

@@ -1,31 +1,37 @@
 import {connect} from 'react-redux';
-import {graphql} from 'react-apollo';
+import {graphql, withApollo} from 'react-apollo';
+import {compose} from 'redux';
 import IssueLIstComponent from './component';
-import {GQL_GET_ISSUES_BY_TAG_NAME} from '../../../graphql/queries';
-import {getIssuesParams} from '../../../actions';
+import {
+  GQL_GET_ISSUES,
+  GQL_SEARCH_ISSUES_BY_TITLE_OR_BODY,
+} from '../../../graphql/queries';
+import {getIssuesParams, searchIssues} from '../../../actions';
 
 function mapStateToProps(state) {
   return {
-    states: state.issuesParams.issuesParams.states,
-    name: state.issuesParams.issuesParams.name,
-    login: state.issuesParams.issuesParams.login,
+    searchParams: state.searchParams,
+    issuesParams: state.issuesParams,
   };
 }
 
-const connectRedux = connect(mapStateToProps, {getIssuesParams});
-// Apollo
-const query = GQL_GET_ISSUES_BY_TAG_NAME;
+const connectRedux = connect(mapStateToProps, {getIssuesParams, searchIssues});
+// Graph queries
+const getIssuesQuery = GQL_GET_ISSUES;
+const searchIssuesQuery = GQL_SEARCH_ISSUES_BY_TITLE_OR_BODY;
 
-function mapOwnPropsToOptions(ownProps) {
+// Get Issues
+function mapOwnIssuePropsToOptions(ownProps) {
+  const {states, name, login} = ownProps.issuesParams.issuesParams;
   return {
     variables: {
-      states: ownProps.states,
-      name: ownProps.name,
-      login: ownProps.login,
+      states,
+      name,
+      login,
     },
   };
 }
-function mapQueryResultToContainedProps(opts) {
+function mapQueryIssuesResultToContainedProps(opts) {
   if (
     !opts.data ||
     opts.data.loading ||
@@ -39,8 +45,42 @@ function mapQueryResultToContainedProps(opts) {
     issues: opts.data.repositoryOwner.repository.issues.edges,
   };
 }
-const connectApollo = graphql(query, {
-  options: mapOwnPropsToOptions,
-  props: mapQueryResultToContainedProps,
+
+// Search Issues
+function mapOwnSearchIssuePropsToOptions(ownProps) {
+  const {term} = ownProps.searchParams.searchParams;
+  return {
+    variables: {
+      term,
+    },
+  };
+}
+function mapQuerySearchIssuesResultToContainedProps(opts) {
+  if (!opts.data || opts.data.loading || !opts.data) {
+    return {
+      searchResults: [],
+    };
+  }
+  return {
+    searchResults: opts.data,
+  };
+}
+
+const connectGetIssues = graphql(getIssuesQuery, {
+  options: mapOwnIssuePropsToOptions,
+  props: mapQueryIssuesResultToContainedProps,
 });
-export default connectRedux(connectApollo(IssueLIstComponent));
+
+const connectSearchIssues = graphql(searchIssuesQuery, {
+  options: mapOwnSearchIssuePropsToOptions,
+  props: mapQuerySearchIssuesResultToContainedProps,
+  fetchPolicy: 'no-cache',
+});
+
+export default connectRedux(
+  compose(
+    withApollo,
+    connectGetIssues,
+    // connectSearchIssues,
+  )(IssueLIstComponent),
+);
