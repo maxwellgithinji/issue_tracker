@@ -76,6 +76,7 @@ const connectSearchIssues = graphql(searchIssuesQuery, {
   props: mapQuerySearchIssuesResultToContainedProps,
   fetchPolicy: 'no-cache',
 });
+console.log(connectSearchIssues);
 
 export default connectRedux(
   compose(

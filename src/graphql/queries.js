@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import {ISSUES_FRAGMENT} from './fragments';
+// import {ISSUES_FRAGMENT} from './fragments';
 
 export const GQL_GET_ISSUES = gql`
   query GetRepositoryIssues(
