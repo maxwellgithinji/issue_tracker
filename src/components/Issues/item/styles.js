@@ -15,7 +15,6 @@ export default StyleSheet.create({
   cardActions: {
     display: 'flex',
     flexDirection: 'row',
-    // marginHorizontal: 10,
   },
   authorView: {
     display: 'flex',

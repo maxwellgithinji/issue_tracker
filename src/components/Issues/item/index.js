@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {Button, Card, Title, Paragraph, Chip} from 'react-native-paper';
-import {Icon} from 'react-native-elements';
+import {Card, Paragraph, Chip} from 'react-native-paper';
+// import {Icon} from 'react-native-elements';
 
 import styles from './styles';
 import {Linking} from 'react-native';

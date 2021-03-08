@@ -21,4 +21,7 @@ export default StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 15,
   },
+  clearFilter: {
+    color: 'blue',
+  },
 });

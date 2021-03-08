@@ -1,8 +1,7 @@
 import React, {Fragment} from 'react';
-import {ListView} from 'react-native';
 import {TextInput} from 'react-native';
 import {ScrollView} from 'react-native';
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import {Divider, List} from 'react-native-paper';
 import {
   Menu,
@@ -32,7 +31,6 @@ class IssuesList extends React.Component {
       const {node} = issue;
       return (
         <List.Section key={node.id} style={styles.listContainer}>
-          {/* <Text>{node.title}</Text> */}
           <Item
             opened={node.publishedAt}
             tag={node.state}
@@ -83,7 +81,7 @@ class IssuesList extends React.Component {
             />
           </View>
           <View style={styles.filterMenu}>
-            <Text>{` Date ⌄    `}</Text>
+            <Text>{'Date ⌄    '}</Text>
             <Menu>
               <MenuTrigger text="Filter By ⌄" style={styles.menuTrigger} />
               <MenuOptions>
@@ -100,7 +98,7 @@ class IssuesList extends React.Component {
                   onSelect={() =>
                     this.onGetIssuesByTagsPressed(['OPEN', 'CLOSED'])
                   }>
-                  <Text style={{color: 'blue'}}>Clear FIlter</Text>
+                  <Text style={styles.clearFilter}>Clear FIlter</Text>
                 </MenuOption>
               </MenuOptions>
             </Menu>
